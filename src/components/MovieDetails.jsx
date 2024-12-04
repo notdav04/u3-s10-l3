@@ -89,8 +89,8 @@ const MovieDetails = () => {
   }, [id]);
   return (
     <>
-      <div>
-        <Card className="bg-dark " style={{ height: "auto", width: "auto" }}>
+      <div className="ms-5 mb-2">
+        <Card className="bg-dark " style={{ height: "auto", width: "18rem" }}>
           <Card.Img
             variant="top"
             src={currentElement.Poster}
@@ -107,7 +107,7 @@ const MovieDetails = () => {
           </Card.Body>
         </Card>
       </div>
-      <div style={{ minHeight: "60vh" }}>
+      <div style={{ minHeight: "60vh" }} className="d-flex gap-5">
         <div style={{ width: "50" }} className="ms-5 mb-5">
           <h2 className="text-light">Lista Commenti</h2>
           <ul>
@@ -130,7 +130,7 @@ const MovieDetails = () => {
             Aggiungi un commento
           </h2>
           <form onSubmit={handleSubmit}>
-            <div className="text-light">
+            <div className="text-light mb-2">
               <label>Commento:</label>
               <textarea
                 name="comment"
@@ -140,7 +140,7 @@ const MovieDetails = () => {
                 required
               />
             </div>
-            <div className="text-light">
+            <div className="text-light mb-2">
               <label>Voto (1-5):</label>
               <input
                 type="number"
