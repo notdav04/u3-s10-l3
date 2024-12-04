@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Card, Badge } from "react-bootstrap";
 
 const MovieDetails = () => {
   const id = useParams();
   console.log(id.id);
+  const [currentElement, settCurrentElement] = useState({});
   const [listaCommenti, setListaCommenti] = useState([]);
   const [obj, setObj] = useState({
     comment: "",
@@ -39,6 +41,22 @@ const MovieDetails = () => {
       console.log("Errore nella richiesta POST:", error);
     }
   };
+  const fetchElement = async () => {
+    const url = `http://www.omdbapi.com/?apikey=b48d62&i=${id.id}`;
+    console.log(url);
+    try {
+      const response = await fetch(url);
+      if (response.ok) {
+        const responseObj = await response.json();
+        settCurrentElement(responseObj);
+        console.log(responseObj);
+      } else {
+        throw new Error(`errore nella richiesta API: ${response.statusText}`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const fetchCommenti = async () => {
     const url = "https://striveschool-api.herokuapp.com/api/comments/" + id.id;
     console.log(url);
@@ -64,12 +82,31 @@ const MovieDetails = () => {
   };
   useEffect(() => {
     fetchCommenti();
+    fetchElement();
   }, []);
   useEffect(() => {
     setObj((prevObj) => ({ ...prevObj, elementId: id.id }));
   }, [id]);
   return (
     <>
+      <div>
+        <Card className="bg-dark " style={{ height: "auto", width: "auto" }}>
+          <Card.Img
+            variant="top"
+            src={currentElement.Poster}
+            style={{ height: "400px" }}
+          />
+          <Card.Body style={{ height: "200px" }}>
+            <Card.Title className="text-light">
+              {currentElement.Title}
+            </Card.Title>
+            <Card.Text className="text-light-emphasis">
+              {currentElement.Year}
+            </Card.Text>
+            <Badge variant="primary">{currentElement.imdbID}</Badge>
+          </Card.Body>
+        </Card>
+      </div>
       <div style={{ minHeight: "60vh" }}>
         <div style={{ width: "50" }} className="ms-5 mb-5">
           <h2 className="text-light">Lista Commenti</h2>

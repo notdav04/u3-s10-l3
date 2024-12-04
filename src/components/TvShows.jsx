@@ -26,7 +26,7 @@ const TvShows = () => {
     navigate(`/MovieDetails/${id}`);
   };
   useEffect(() => {
-    fetchMovies("squid");
+    fetchMovies("harry");
   }, []);
   return (
     <>
